@@ -1,0 +1,191 @@
+swagger: '2.0'
+info:
+  title: Login & Sigup API
+  description: API description in Markdown.
+  version: 1.0.0
+  contact:
+    email: asif-mehmood@hotmail.com
+  license:
+    name: Apache 2.0
+    url: 'https://softoo.co'
+  servers:
+    -url: "http://localhost:4000"
+    description: This is my local server
+    -url: "https://softoo.co"
+    description: This is my company server
+
+schemes: [http,https]
+
+paths:
+  /login:
+    post:
+      summary: User will login
+      description: user will login and token will be generated
+      parameters:
+      - name: Login
+        in: body
+        description: login task object
+        required: true
+        schema:
+          $ref: '#definitions/Login'            
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad request
+        404:
+          description: Server does not found resource
+        500:
+          description: Internal Server Error
+
+  /signup:
+    post:
+      summary: Register user
+      description: user will signup
+      parameters:
+      - name: Signup
+        in: body
+        description: login task
+        required: true
+        schema: 
+          $ref: '#/definitions/Signup'
+      responses: 
+        200:
+          description: Success
+        400:
+          description: Bad request
+        404:
+          description: Server does not found resource
+        500:
+          description: Internal Server Error
+
+  /forget:
+    post:
+      summary: forget password
+      description: use will send email to reset password
+      parameters:
+      - name: Forget 
+        in: body
+        description: forget password
+        required: true
+        schema:
+          $ref: '#/definitions/Forget'
+      responses:
+        200:
+          description: Success
+        400:
+          description: Bad request
+        404:
+          description: Server does not found resource
+        500:
+          description: Internal Server Error
+
+  /reset:
+    post:
+      summary: reset user password
+      description: user will reset passwor
+      parameters:
+      - name: Reset Password
+        in: body
+        description: Rest password task
+        required: true
+        schema: 
+          $ref: '#/definitions/Reset'
+      responses: 
+        200:
+          description: Success
+        400:
+          description: Bad request
+        404:
+          description: Server does not found resource
+        500:
+          description: Internal Server Error
+      
+  /file/upload:
+     post:
+       summary: Uploads a file.
+       consumes:
+         - multipart/form-data
+       parameters:
+         - in: formData
+           name: file
+           type: file
+           description: The file to upload.
+           required: true
+       schema: 
+         $ref: '#/definitions/Upload'
+       responses:
+         200:
+          description: Success
+         400:
+          description: Bad request
+         404:
+          description: Server does not found resource
+         500:
+          description: Internal Server Error
+      
+
+definitions:
+  Login:
+    properties:
+      email:
+        type: string
+        example: "asif-mehmood@hotmail.com"
+      password:
+        type: string
+        example: "asifmehmoodD221"
+    # Both properties are required
+    required:  
+      - email
+      - password
+
+  Signup:
+    properties:
+      email: 
+        type: string
+        example: "asif-mehmood@hotmail.com"
+      password:
+        type: string
+        example: "asifmehmoodD221"
+      confirm_password: 
+        type: string
+        example: "asifmehmoodD221"
+      cnic: 
+        type: string
+        example: "3740561125275"
+    required:
+    - email
+    - password
+    - confirm_password
+    - cnic
+
+  Forget:
+    properties:
+      email: 
+        type: string
+        example: "asif-mehmood@hotmail.com"
+    required:
+    - email
+
+  Reset:
+    properties:
+      token: 
+        type: string
+        example: "enter toke you recieved via email"
+      password:
+        type: string
+        example: "asifmehmoodD221"
+      confirm_password: 
+        type: string
+        example: "asifmehmoodD221"
+    required:
+    - token
+    - password
+    - confirm_password
+
+  Upload:
+    properties:
+      token: 
+        type: string
+        format: "binary"
+        example: "file"
